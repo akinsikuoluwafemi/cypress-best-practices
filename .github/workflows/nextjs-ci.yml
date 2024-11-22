@@ -1,0 +1,46 @@
+name: Next.js CI/CD
+
+on:
+  push:
+    branches:
+      - main # Runs on push to the main branch
+  pull_request:
+    branches:
+      - main # Runs on pull requests to the main branch
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm run' # Use 'npm' if applicable
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm run install # Or npm install
+
+      # Step 4: Build Next.js app
+      - name: Build Next.js
+        run: npm run build
+
+      # Step 5: Run linting
+      - name: Run linter
+        run: npm run lint
+
+      # Step 6: Run Cypress Tests
+      - name: Run Cypress Tests
+        uses: cypress-io/github-action@v2
+        with:
+          start: npm run start # Start your Next.js app before running tests
+          wait-on: http://localhost:3000 # Wait for the app to be ready
+          browser: chrome # Optional: Specify the browser
+          headless: true # Optional: Run tests in headless mode
