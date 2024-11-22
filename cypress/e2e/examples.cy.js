@@ -42,6 +42,7 @@ describe('Various examples', () => {
   // methods to know
   //its, invoke, request, within, intercept, pause, location, visit, contains, get, wait
 
+  // it.only()
 
   it.only('grudges', () => {
     cy.contains(/Add Some Grudges/i).click();
@@ -77,7 +78,7 @@ describe('Various examples', () => {
         cy.get("li").its(0).should("contains.text", "some grudge");
       });
     
-    // delete a grudge
+    // // delete a grudge
     cy.getDataTest("grudge-list").within(() => {
       cy.get("li").its(0).within(() => {
          cy.get("button").click();
